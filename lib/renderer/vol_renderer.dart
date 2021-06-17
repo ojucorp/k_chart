@@ -7,6 +7,7 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
   late double mVolWidth;
   final ChartStyle chartStyle;
   final ChartColors chartColors;
+  late Radius radius;
 
   VolRenderer(Rect mainRect, double maxValue, double minValue,
       double topPadding, int fixedLength, this.chartStyle, this.chartColors)
@@ -18,6 +19,7 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
             fixedLength: fixedLength,
             gridColor: chartColors.gridColor,) {
     mVolWidth = this.chartStyle.volWidth;
+    radius = Radius.circular(chartStyle.candleRadius);
   }
 
   @override
@@ -27,22 +29,9 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
     double top = getVolY(curPoint.vol);
     double bottom = chartRect.bottom;
     if (curPoint.vol != 0) {
-      canvas.drawRect(
-          Rect.fromLTRB(curX - r, top, curX + r, bottom),
-          chartPaint
-            ..color = curPoint.close > curPoint.open
-                ? this.chartColors.upColor
-                : this.chartColors.dnColor);
-    }
-
-    if (lastPoint.MA5Volume != 0) {
-      drawLine(lastPoint.MA5Volume, curPoint.MA5Volume, canvas, lastX, curX,
-          this.chartColors.ma5Color);
-    }
-
-    if (lastPoint.MA10Volume != 0) {
-      drawLine(lastPoint.MA10Volume, curPoint.MA10Volume, canvas, lastX, curX,
-          this.chartColors.ma10Color);
+      canvas.drawRRect(
+          RRect.fromLTRBR(curX - r, top, curX + r, bottom, radius),
+          chartPaint..color = this.chartColors.defaultTextColor);
     }
   }
 
@@ -56,14 +45,6 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
         TextSpan(
             text: "VOL:${NumberUtil.format(data.vol)}    ",
             style: getTextStyle(this.chartColors.volColor)),
-        if (data.MA5Volume.notNullOrZero)
-          TextSpan(
-              text: "MA5:${NumberUtil.format(data.MA5Volume!)}    ",
-              style: getTextStyle(this.chartColors.ma5Color)),
-        if (data.MA10Volume.notNullOrZero)
-          TextSpan(
-              text: "MA10:${NumberUtil.format(data.MA10Volume!)}    ",
-              style: getTextStyle(this.chartColors.ma10Color)),
       ],
     );
     TextPainter tp = TextPainter(text: span, textDirection: TextDirection.ltr);
@@ -87,7 +68,6 @@ class VolRenderer extends BaseChartRenderer<VolumeEntity> {
         Offset(chartRect.width, chartRect.bottom), gridPaint);
     double columnSpace = chartRect.width / gridColumns;
     for (int i = 0; i <= columnSpace; i++) {
-      //vol垂直线
       canvas.drawLine(Offset(columnSpace * i, chartRect.top - topPadding),
           Offset(columnSpace * i, chartRect.bottom), gridPaint);
     }

@@ -28,10 +28,9 @@ class KChartWidget extends StatefulWidget {
   final SecondaryState secondaryState;
   final Function()? onSecondaryTap;
   final bool isLine;
-  final bool isChinese;
+  final bool isEnglish;
   final List<String> timeFormat;
 
-  //当屏幕滚动到尽头会调用，真为拉到屏幕右侧尽头，假为拉到屏幕左侧尽头
   final Function(bool)? onLoadMore;
   final List<Color>? bgColor;
   final int fixedLength;
@@ -52,7 +51,7 @@ class KChartWidget extends StatefulWidget {
     this.onSecondaryTap,
     this.volHidden = false,
     this.isLine = false,
-    this.isChinese = false,
+    this.isEnglish = false,
     this.timeFormat = TimeFormat.YEAR_MONTH_DAY,
     this.onLoadMore,
     this.bgColor,
@@ -243,15 +242,15 @@ class _KChartWidgetState extends State<KChartWidget>
 
   void notifyChanged() => setState(() {});
 
-  final List<String> infoNamesCN = [
-    "时间",
-    "开",
-    "高",
-    "低",
-    "收",
-    "涨跌额",
-    "涨跌幅",
-    "成交额"
+  final List<String> infoNamesKR = [
+    "날짜",
+    "시가",
+    "고가",
+    "저가",
+    "종가",
+    "등락",
+    "등락률",
+    "거래량",
   ];
   final List<String> infoNamesEN = [
     "Date",
@@ -297,12 +296,12 @@ class _KChartWidgetState extends State<KChartWidget>
                     color: widget.chartColors.selectBorderColor, width: 0.5)),
             child: ListView.builder(
               padding: EdgeInsets.all(4),
-              itemCount: infoNamesCN.length,
-              itemExtent: 14.0,
+              itemCount: infoNamesKR.length,
+              itemExtent: 21.0,
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return _buildItem(infos[index],
-                    widget.isChinese ? infoNamesCN[index] : infoNamesEN[index]);
+                    widget.isEnglish ? infoNamesEN[index] : infoNamesKR[index]);
               },
             ),
           );
@@ -322,9 +321,13 @@ class _KChartWidgetState extends State<KChartWidget>
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Expanded(
-            child: Text("$infoName",
-                style: TextStyle(color: widget.chartColors.infoWindowTitleColor, fontSize: 10.0))),
-        Text(info, style: TextStyle(color: color, fontSize: 10.0)),
+          child: Text(
+            "$infoName",
+            style: TextStyle(
+                color: widget.chartColors.infoWindowTitleColor, fontSize: 11.5),
+          ),
+        ),
+        Text(info, style: TextStyle(color: color, fontSize: 11.5)),
       ],
     );
   }

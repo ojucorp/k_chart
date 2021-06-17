@@ -24,16 +24,12 @@ class ChartColors {
 
   Color nowPriceColor = Color(0xffC9B885);
 
-  //深度颜色
   Color depthBuyColor = Color(0xff60A893);
   Color depthSellColor = Color(0xffC15866);
-  //选中后显示值边框颜色
   Color selectBorderColor = Color(0xff6C7A86);
 
-  //选中后显示值背景的填充颜色
   Color selectFillColor = Color(0xff0D1722);
 
-  //分割线颜色
   Color gridColor = Color(0xff4c5c74);
 
   Color infoWindowNormalColor = Color(0xffffffff);
@@ -45,7 +41,6 @@ class ChartColors {
   Color vCrossColor = Color(0x1Effffff);
   Color crossTextColor = Color(0xffffffff);
 
-  //当前显示内最大和最小值的颜色
   Color maxColor = Color(0xffffffff);
   Color minColor = Color(0xffffffff);
 
@@ -67,24 +62,21 @@ class ChartColors {
 }
 
 class ChartStyle {
-  //点与点的距离
   double pointWidth = 11.0;
 
-  //蜡烛宽度
   double candleWidth = 8.5;
 
-  //蜡烛中间线的宽度
   double candleLineWidth = 1.5;
 
-  //vol柱子宽度
+  double candleRadius = 1.5;
+
   double volWidth = 8.5;
 
-  //macd柱子宽度
+  double volHeightRatio = 0.15;
+
   double macdWidth = 3.0;
 
-  //垂直交叉线宽度
   double vCrossWidth = 8.5;
 
-  //水平交叉线宽度
   double hCrossWidth = 0.5;
 }

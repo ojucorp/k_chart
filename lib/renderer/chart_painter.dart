@@ -266,18 +266,15 @@ class ChartPainter extends BaseChartPainter {
         selectorBorderPaint!);
 
     dateTp.paint(canvas, Offset(x - textWidth / 2, y));
-    //长按显示这条数据详情
     sink?.add(InfoWindowEntity(point, isLeft: isLeft));
   }
 
   @override
   void drawText(Canvas canvas, KLineEntity data, double x) {
-    //长按显示按中的数据
     if (isLongPress) {
       var index = calculateSelectedX(selectX);
       data = getItem(index);
     }
-    //松开显示最后一条数据
     mMainRenderer.drawText(canvas, data, x);
     mVolRenderer?.drawText(canvas, data, x);
     mSecondaryRenderer?.drawText(canvas, data, x);
@@ -286,11 +283,9 @@ class ChartPainter extends BaseChartPainter {
   @override
   void drawMaxAndMin(Canvas canvas) {
     if (isLine == true) return;
-    //绘制最大值和最小值
     double x = translateXtoX(getX(mMainMinIndex));
     double y = getMainY(mMainLowMinValue);
     if (x < mWidth / 2) {
-      //画右边
       TextPainter tp = getTextPainter(
           "── " + mMainLowMinValue.toStringAsFixed(fixedLength), chartColors.minColor);
       tp.paint(canvas, Offset(x, y - tp.height / 2));
@@ -302,7 +297,6 @@ class ChartPainter extends BaseChartPainter {
     x = translateXtoX(getX(mMainMaxIndex));
     y = getMainY(mMainHighMaxValue);
     if (x < mWidth / 2) {
-      //画右边
       TextPainter tp = getTextPainter(
           "── " + mMainHighMaxValue.toStringAsFixed(fixedLength), chartColors.maxColor);
       tp.paint(canvas, Offset(x, y - tp.height / 2));
@@ -320,7 +314,6 @@ class ChartPainter extends BaseChartPainter {
     double value = datas![datas!.length - 1].close;
     double y = getMainY(value);
     if (x < mWidth / 2) {
-      //画右边
       TextPainter tp = getTextPainter(
           "------ " + value.toStringAsFixed(fixedLength),
           this.chartColors.nowPriceColor);
@@ -333,7 +326,6 @@ class ChartPainter extends BaseChartPainter {
     }
   }
 
-  ///画交叉线
   void drawCrossLine(Canvas canvas, Size size) {
     var index = calculateSelectedX(selectX);
     KLineEntity point = getItem(index);
@@ -343,7 +335,6 @@ class ChartPainter extends BaseChartPainter {
       ..isAntiAlias = true;
     double x = getX(index);
     double y = getMainY(point.close);
-    // k线图竖线
     canvas.drawLine(Offset(x, mTopPadding),
         Offset(x, size.height - mBottomPadding), paintY);
 
@@ -351,7 +342,6 @@ class ChartPainter extends BaseChartPainter {
       ..color = this.chartColors.hCrossColor
       ..strokeWidth = this.chartStyle.hCrossWidth
       ..isAntiAlias = true;
-    // k线图横线
     canvas.drawLine(Offset(-mTranslateX, y),
         Offset(-mTranslateX + mWidth / scaleX, y), paintX);
     if (scaleX >= 1) {
@@ -384,7 +374,6 @@ class ChartPainter extends BaseChartPainter {
 
   double getMainY(double y) => mMainRenderer.getY(y);
 
-  /// 点是否在SecondaryRect中
   bool isInSecondaryRect(Offset point) {
     return mSecondaryRect?.contains(point) ?? false;
   }
