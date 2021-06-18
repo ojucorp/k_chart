@@ -288,7 +288,7 @@ class _KChartWidgetState extends State<KChartWidget>
           return Container(
             margin: EdgeInsets.only(
                 left: snapshot.data!.isLeft ? 4 : mWidth - mWidth / 3 - 4,
-                top: 25),
+                top: 5),
             width: mWidth / 3,
             decoration: BoxDecoration(
                 color: widget.chartColors.selectFillColor,
